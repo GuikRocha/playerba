@@ -21,7 +21,10 @@ const playerOptions = {
   radius: '10',
   controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
   settings: ['captions', 'quality', 'speed', 'loop'],
-  autoplay: false
+  autoplay: false,
+  i18n: {  // Adicione esta seção para traduções
+    speed: 'Velocidade' 
+  }
 };
 
 // Obtendo o ID do vídeo da URL
