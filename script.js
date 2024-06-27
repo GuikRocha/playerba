@@ -1,9 +1,5 @@
 "use strict";
 
-let gInserted = false;
-let gInsertedScript = false;
-let unmute = false;
-
 // ... (código das funções globalInsert, instanceStyle e init) ...
 
 function start(options) {
@@ -21,20 +17,11 @@ function start(options) {
 const playerOptions = {
   id: 'player',
   loop: true,
-  color: 'red', // Cor do player em vermelho
+  color: 'green',
   radius: '10',
   controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
   settings: ['captions', 'quality', 'speed', 'loop'],
-  autoplay: false, // Desabilita o autoplay para dispositivos móveis
-  i18n: {
-    speed: 'Velocidade',
-    quality: 'Qualidade'
-  },
-  youtube: {
-    noCookie: true, // Evita que o YouTube armazene cookies
-    showinfo: 0,    // Oculta informações do vídeo (título, etc.)
-    rel: 0         // Não mostra vídeos relacionados ao final
-  }
+  autoplay: false
 };
 
 // Obtendo o ID do vídeo da URL
