@@ -1,6 +1,60 @@
 "use strict";
 
-// ... (código das funções globalInsert, instanceStyle e init) ...
+let gInserted = false;
+let gInsertedScript = false;
+let unmute = false;
+
+function globalInsert() {
+  // ... (código da função globalInsert) ...
+}
+
+function instanceStyle(id, color, radius) {
+  // ... (código da função instanceStyle) ...
+}
+
+function init(options) {
+  const {
+    id,
+    embed,
+    loop = true,
+    color,
+    radius,
+    controls = ["play-large", "play", "progress", "current-time", "mute", "volume", "captions", "settings", "pip", "airplay", "fullscreen"],
+    settings = ["captions", "quality", "speed", "loop"],
+    autoplay = false
+  } = options;
+
+  instanceStyle(id, color, radius);
+
+  const container = document.getElementById(id);
+  container.classList.add("plyr__video-embed");
+
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://www.youtube.com/embed/${embed}`;
+  iframe.allowFullscreen = true;
+  iframe.allowtransparency = true;
+  iframe.setAttribute("allow", "autoplay");
+
+  const unmuteButton = document.createElement("button");
+  unmuteButton.className = `${id}-unmute unmute-button`;
+  unmuteButton.innerHTML = "&#128266; Ativar Áudio";
+
+  container.appendChild(iframe);
+
+  const player = new Plyr(`#${id}`, {
+    loop: { active: loop },
+    controls,
+    settings,
+    muted: autoplay ? false : true,
+    keyboard: { focused: false, global: false },
+    i18n: {
+      speed: 'Velocidade',
+      quality: 'Qualidade' // Tradução para a opção de qualidade
+    }
+  });
+
+  // ... (restante do código da função init) ...
+}
 
 function start(options) {
   globalInsert();
@@ -19,12 +73,9 @@ const playerOptions = {
   loop: true,
   color: 'red',
   radius: '10',
-  controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-  settings: ['captions', 'quality', 'speed', 'loop'],
-  autoplay: false,
-  i18n: {  // Adicione esta seção para traduções
-    speed: 'Velocidade' 
-  }
+  controls,
+  settings,
+  autoplay: false
 };
 
 // Obtendo o ID do vídeo da URL
