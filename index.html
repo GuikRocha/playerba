@@ -2,12 +2,14 @@
 <html>
 <head>
   <title>Vídeo Incorporado</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="player"></div>
+  <div id="player" class="video-container">
+    <iframe id="youtube-player" width="560" height="315" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
 
   <script src="https://www.cutslabel.com/libs/1.1.0/core.js"></script>
-  <script src="script.js"></script> 
+  <script src="script.js"></script>
 </body>
 </html>
