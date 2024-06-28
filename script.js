@@ -2,30 +2,41 @@
 
 // ... (código das funções globalInsert, instanceStyle e init) ...
 
-function start(options) {
-  globalInsert();
+async function start(options) {
+  await globalInsert(); // Aguarda a inserção do script externo
+
   if (gInsertedScript) {
-    gInsertedScript.addEventListener("load", function () {
-      init(options);
-    });
+    gInsertedScript.addEventListener("load", () => init(options));
   } else {
     init(options);
   }
 }
 
-// Configuração do player (o embed é obtido da URL)
+// Configuração do player
 const playerOptions = {
-  id: 'player',
+  id: "player",
   loop: true,
-  color: 'green',
-  radius: '10',
-  controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
-  settings: ['captions', 'quality', 'speed', 'loop'],
-  autoplay: false
+  color: "yellow",
+  radius: 10, // Número em vez de string
+  controls: [
+    "play-large",
+    "play",
+    "progress",
+    "current-time",
+    "mute",
+    "volume",
+    "captions",
+    "settings",
+    "pip",
+    "airplay",
+    "fullscreen",
+  ],
+  settings: ["captions", "quality", "speed", "loop"],
+  autoplay: false,
 };
 
-// Obtendo o ID do vídeo da URL
+// Obtém o ID do vídeo da URL
 const urlParams = new URLSearchParams(window.location.search);
-playerOptions.embed = urlParams.get('embed');
+playerOptions.embed = urlParams.get("embed");
 
 start(playerOptions);
