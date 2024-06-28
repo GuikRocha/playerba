@@ -36,3 +36,20 @@
 
 /* Estilos para o contêiner do vídeo */
 #player { /* Adicione estilos para o contêiner, se desejar */ }
+
+/* Estilos para o contêiner do iframe */
+.video-container {
+  position: relative; /* Necessário para o posicionamento absoluto do iframe */
+  width: 100%;       /* Ocupa 100% da largura do contêiner pai */
+  padding-bottom: 56.25%; /* Mantém a proporção 16:9 do vídeo */
+  overflow: hidden;    /* Evita que o iframe transborde */
+}
+
+/* Estilos para o iframe */
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
