@@ -17,7 +17,7 @@ function start(options) {
 const playerOptions = {
   id: 'player',
   loop: true,
-  color: 'red',
+  color: 'green',
   radius: '10',
   controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'],
   settings: ['captions', 'quality', 'speed', 'loop'],
