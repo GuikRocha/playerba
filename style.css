@@ -54,8 +54,7 @@ html {
   position: relative;
   width: 100%;
   overflow: hidden;
-  min-height: 300px; /* Define a altura mínima desejada */
-  padding-bottom: max(56.25%, 300px); /* Mantém a proporção 16:9 com altura mínima de 300px */
+  padding-bottom: max(56.25%, 450px); /* Mantém a proporção 16:9 com altura mínima de 300px */
 }
 }
 
