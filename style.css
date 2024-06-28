@@ -4,13 +4,11 @@
   border-radius: 10px;   /* Borda arredondada */
 }
 
-/* Estilos para o corpo da página */
 body, html {
   height: 100%;
   margin: 0;
 }
 
-/* Estilos para o contêiner do vídeo */
 #player {
   width: 100%;
   height: 100%; 
