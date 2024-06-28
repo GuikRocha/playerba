@@ -51,11 +51,9 @@ html {
 
 /* Estilos para o contêiner do iframe */
 .video-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  padding-bottom: max(56.25%, 450px); /* Mantém a proporção 16:9 com altura mínima de 300px */
-}
+position: relative;
+      width: 100%; /* Ou defina uma largura fixa */
+      padding-bottom: 56.25%; /* Proporção 16:9 */
 }
 
 /* Estilos para o iframe */
