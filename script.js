@@ -67,7 +67,7 @@ function setupPlayer(id, embed, loop, color, radius, controls, settings, autopla
     container.classList.add("plyr__video-embed");
 
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${embed}`;
+    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1`;
     iframe.allowFullscreen = true;
     iframe.allowtransparency = true;
     iframe.setAttribute("allow", "autoplay");
@@ -97,37 +97,4 @@ function setupPlayer(id, embed, loop, color, radius, controls, settings, autopla
         const videoWrapper = document.querySelector(`#${id} > div.plyr__video-wrapper`);
         videoWrapper.appendChild(overlay);
 
-        document.querySelector(`#${id}`).style.filter = "blur(0)";
-
-        if (autoplay) {
-            container.appendChild(unmuteButton);
-            unmuteButton.addEventListener("click", function () {
-                player.muted = false;
-                unmuteButton.style.display = "none";
-                player.currentTime = 0;
-                unmute = true;
-            });
-
-            player.on("click", function () {
-                if (player.muted && !unmute) {
-                    player.muted = false;
-                    unmuteButton.style.display = "none";
-                    player.currentTime = 0;
-                    player.play();
-                    unmute = true;
-                } else if (!player.muted) {
-                    unmuteButton.style.display = "none";
-                }
-            });
-
-            player.play();
-        }
-    });
-
-    player.on('volumechange', function () {
-        // Ensure the video keeps playing while adjusting the volume
-        if (player.paused) {
-            player.play();
-        }
-    });
-}
+        document.querySelector(`#${id}`).style.filter = "blur
