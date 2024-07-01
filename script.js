@@ -123,4 +123,11 @@ function setupPlayer(id, embed, loop, color, radius, controls, settings, autopla
             player.play();
         }
     });
+
+    player.on('volumechange', function () {
+        // Ensure the video keeps playing while adjusting the volume
+        if (player.paused) {
+            player.play();
+        }
+    });
 }
