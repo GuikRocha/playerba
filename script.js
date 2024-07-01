@@ -27,7 +27,7 @@ function instanceStyle(id, color, radius) {
     document.head.appendChild(style);
 }
 
-async function init(options) {
+async function initializePlayer(options) {
     const {
         id,
         embed,
@@ -47,7 +47,7 @@ async function init(options) {
     container.classList.add("plyr__video-embed");
 
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1&controls=0`;
+    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1&controls=0&modestbranding=1&showinfo=0&loop=${loop ? 1 : 0}&playlist=${embed}`;
     iframe.allowFullscreen = true;
     iframe.allowtransparency = true;
     iframe.setAttribute("allow", "autoplay; encrypted-media");
