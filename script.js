@@ -1,29 +1,19 @@
 "use strict";
 
-let gInserted = false;
-let gInsertedScript = false;
-let unmute = false;
-
 function globalInsert() {
-    if (!gInserted) {
-        const cssLink = document.createElement("link");
-        cssLink.type = "text/css";
-        cssLink.rel = "stylesheet";
-        cssLink.href = "https://cdn.plyr.io/3.7.8/plyr.css";
-        document.head.appendChild(cssLink);
+    const cssLink = document.createElement("link");
+    cssLink.type = "text/css";
+    cssLink.rel = "stylesheet";
+    cssLink.href = "https://cdn.plyr.io/3.7.8/plyr.css";
+    document.head.appendChild(cssLink);
 
-        const script = document.createElement("script");
-        script.src = "https://cdn.plyr.io/3.7.8/plyr.js";
-        const existingScript = document.body.getElementsByTagName("script")[0];
-        if (existingScript) {
-            document.body.insertBefore(script, existingScript);
-        } else {
-            document.body.appendChild(script);
-        }
+    const script = document.createElement("script");
+    script.src = "https://cdn.plyr.io/3.7.8/plyr.js";
+    document.body.appendChild(script);
 
-        gInserted = true;
-        gInsertedScript = script;
-    }
+    return new Promise((resolve) => {
+        script.onload = resolve;
+    });
 }
 
 function instanceStyle(id, color, radius) {
@@ -37,7 +27,7 @@ function instanceStyle(id, color, radius) {
     document.head.appendChild(style);
 }
 
-function init(options) {
+async function init(options) {
     const {
         id,
         embed,
@@ -49,88 +39,55 @@ function init(options) {
         autoplay = false
     } = options;
 
-    globalInsert();
+    await globalInsert();
 
-    if (gInsertedScript) {
-        gInsertedScript.addEventListener("load", function () {
-            setupPlayer(id, embed, loop, color, radius, controls, settings, autoplay);
-        });
-    } else {
-        setupPlayer(id, embed, loop, color, radius, controls, settings, autoplay);
-    }
-}
-
-function setupPlayer(id, embed, loop, color, radius, controls, settings, autoplay) {
     instanceStyle(id, color, radius);
 
     const container = document.getElementById(id);
     container.classList.add("plyr__video-embed");
 
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1&controls=0&autoplay=${autoplay ? 1 : 0}&mute=1`;
+    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1&controls=0`;
     iframe.allowFullscreen = true;
     iframe.allowtransparency = true;
-    iframe.setAttribute("allow", "autoplay");
+    iframe.setAttribute("allow", "autoplay; encrypted-media");
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    container.appendChild(iframe);
 
     const unmuteButton = document.createElement("button");
-    unmuteButton.className = `${id}-unmute unmute-button`;
+    unmuteButton.className = "unmute-button";
     unmuteButton.innerHTML = "&#128266; Ativar Áudio";
-
-    container.appendChild(iframe);
+    container.appendChild(unmuteButton);
 
     const player = new Plyr(`#${id}`, {
         loop: { active: loop },
         controls,
         settings,
-        muted: autoplay ? false : true,
+        muted: true,
         keyboard: { focused: false, global: false }
     });
 
     player.on("ready", function () {
-        const overlay = document.createElement("div");
-        overlay.style.position = "absolute";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100%";
-        overlay.style.height = "100vh";
+        player.muted = true;
 
-        const videoWrapper = document.querySelector(`#${id} > div.plyr__video-wrapper`);
-        videoWrapper.appendChild(overlay);
-
-        document.querySelector(`#${id}`).style.filter = "blur(0)";
-
-        if (autoplay) {
-            container.appendChild(unmuteButton);
-            unmuteButton.addEventListener("click", function () {
-                player.muted = false;
-                unmuteButton.style.display = "none";
-                player.currentTime = 0;
-                unmute = true;
-            });
-
-            player.on("click", function () {
-                if (player.muted && !unmute) {
-                    player.muted = false;
-                    unmuteButton.style.display = "none";
-                    player.currentTime = 0;
-                    player.play();
-                    unmute = true;
-                } else if (!player.muted) {
-                    unmuteButton.style.display = "none";
-                }
-            });
-
-            player.play();
-        }
-    });
-
-    // Prevent the video from stalling on volume change
-    player.on("volumechange", function() {
-        if (player.muted) {
+        unmuteButton.addEventListener("click", function () {
             player.muted = false;
             unmuteButton.style.display = "none";
-            player.currentTime = 0;
-            unmute = true;
+        });
+
+        player.on("click", function () {
+            if (player.muted) {
+                player.muted = false;
+                unmuteButton.style.display = "none";
+            }
+        });
+    });
+
+    // Ensure the player starts muted but can be unmuted by the user
+    player.on("volumechange", function () {
+        if (!player.muted) {
+            unmuteButton.style.display = "none";
         }
     });
 }
