@@ -67,7 +67,7 @@ function setupPlayer(id, embed, loop, color, radius, controls, settings, autopla
     container.classList.add("plyr__video-embed");
 
     const iframe = document.createElement("iframe");
-    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1&controls=0`;
+    iframe.src = `https://www.youtube.com/embed/${embed}?enablejsapi=1&controls=0&autoplay=${autoplay ? 1 : 0}&mute=1`;
     iframe.allowFullscreen = true;
     iframe.allowtransparency = true;
     iframe.setAttribute("allow", "autoplay");
